@@ -7,7 +7,7 @@ const DEFAULT_SCREEN= {
     names:[],
     error:'',
     showError: false,
-    result:''
+    result:[]
 }
 createApp({
     setup(){
@@ -25,9 +25,6 @@ createApp({
                 data.names.push(userName)
                 data.showError = false
                 data.inputName = "";
-                console.log(data.names);
-                console.log(data.index);
-
             }
             else{
                 data.showError =true
@@ -52,13 +49,39 @@ createApp({
             }
             return true
         }
+        const generateResult = (array) => {
+            // L'algorithme de Fisher-Yates (ou Knuth Shuffle), qui est une méthode
+            //  efficace pour mélanger aléatoirement les éléments d'un tableau
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        
+        };
+        
+        const ShowResult = ()=>{
+            generateResult(data.names)
+            data.state = false;
+        }
 
+
+       
+        const recommecer = ()=>{
+            data.state=true;
+            data.inputName='';
+            data.names=[];
+            data.error='';
+            data.showError= false;
+            data.result=[]
+        }
 
         return {
             data,
             addNameTolist,
             isReady ,
-            removeName 
+            removeName,
+            ShowResult,
+            recommecer,
             }
     }
 }).mount('#app')
